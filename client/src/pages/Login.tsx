@@ -2,16 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import {
-  ShoppingCart,
   Eye,
   EyeOff,
   Loader2,
   Mail,
-  Lock,
-  User,
   ArrowLeft,
   CheckCircle,
-  Sparkles,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../services/api";
@@ -78,223 +74,271 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 dark:from-gray-900 dark:via-indigo-950 dark:to-purple-950">
-        {/* Animated shapes */}
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-purple-900/50 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob" />
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 dark:bg-indigo-900/50 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-pink-900/50 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-4000" />
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-300 dark:bg-blue-900/50 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-6000" />
+    <div className="min-h-screen flex">
+      {/* Left Panel - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative bg-slate-900 overflow-hidden">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-transparent to-emerald-600/10" />
+        
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+        
+        {/* Floating shapes */}
+        <div className="absolute top-20 left-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-violet-500/10 rounded-full blur-3xl" />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            </div>
+            <span className="text-white font-semibold text-xl tracking-tight">Vendoa</span>
+          </div>
+          
+          {/* Main content */}
+          <div className="max-w-lg">
+            <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
+              Streamline your business with modern POS
+            </h1>
+            <p className="text-slate-400 text-lg leading-relaxed">
+              Manage sales, inventory, and customers all in one place. Built for speed, designed for simplicity.
+            </p>
+            
+            {/* Features */}
+            <div className="mt-12 space-y-4">
+              {[
+                "Real-time inventory tracking",
+                "Comprehensive sales analytics",
+                "Multi-user access control",
+              ].map((feature, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <svg className="w-3 h-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-slate-300 text-sm">{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Footer */}
+          <p className="text-slate-500 text-sm">
+            © {new Date().getFullYear()} Vendoa. All rights reserved.
+          </p>
+        </div>
       </div>
 
-      {/* Glass card */}
-      <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="backdrop-blur-xl bg-white/90 dark:bg-gray-900/80 rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/50 overflow-hidden">
-          {/* Top decorative bar */}
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+      {/* Right Panel - Form */}
+      <div className="w-full lg:w-1/2 xl:w-[45%] flex items-center justify-center p-6 sm:p-12 bg-white dark:bg-slate-900">
+        <div className="w-full max-w-md">
+          {/* Mobile logo */}
+          <div className="lg:hidden flex items-center justify-center gap-3 mb-12">
+            <div className="w-10 h-10 bg-slate-900 dark:bg-white rounded-xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-white dark:text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            </div>
+            <span className="text-slate-900 dark:text-white font-semibold text-xl tracking-tight">Vendoa</span>
+          </div>
 
-          <div className="p-8 sm:p-10">
-            {!showForgotPassword ? (
-              <>
-                {/* Logo and title */}
-                <div className="flex flex-col items-center mb-8">
-                  <div className="relative">
-                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 transition-transform hover:rotate-0 hover:scale-105">
-                      <ShoppingCart className="w-10 h-10 text-white" />
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                      <Sparkles className="w-3 h-3 text-white" />
-                    </div>
-                  </div>
-                  <h1 className="mt-6 text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
-                    Vendoa
-                  </h1>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2 text-center">
-                    Point of Sale System
-                  </p>
+          {!showForgotPassword ? (
+            <>
+              {/* Header */}
+              <div className="mb-8">
+                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                  Welcome back
+                </h2>
+                <p className="text-slate-500 dark:text-slate-400 mt-2">
+                  Enter your credentials to access your account
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                  >
+                    Username
+                  </label>
+                  <input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    placeholder="Enter your username"
+                  />
                 </div>
 
-                {/* Login form */}
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="username"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Username
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
-                      </div>
-                      <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none transition-all"
-                        placeholder="Enter your username"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Password
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
-                      </div>
-                      <input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full pl-12 pr-12 py-3.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none transition-all"
-                        placeholder="Enter your password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                      >
-                        {showPassword ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Forgot password link */}
-                  <div className="flex justify-end">
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                  >
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pr-12"
+                      placeholder="Enter your password"
+                    />
                     <button
                       type="button"
-                      onClick={() => setShowForgotPassword(true)}
-                      className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                     >
-                      Forgot password?
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
+                </div>
 
+                <div className="flex justify-end">
                   <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
+                    type="button"
+                    onClick={() => setShowForgotPassword(true)}
+                    className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors"
                   >
-                    {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-                    {loading ? "Signing in..." : "Sign In"}
+                    Forgot password?
                   </button>
-                </form>
+                </div>
 
-                {/* Footer */}
-                <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
-                  © {new Date().getFullYear()} Vendoa. All rights reserved.
-                </p>
-              </>
-            ) : (
-              <>
-                {/* Forgot Password View */}
-                {!resetSuccess ? (
-                  <>
-                    {/* Back button */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg font-medium hover:bg-slate-800 dark:hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-white transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+                  {loading ? "Signing in..." : "Sign in"}
+                </button>
+              </form>
+
+              {/* Divider */}
+              <div className="relative my-8">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-slate-200 dark:border-slate-700" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-white dark:bg-slate-900 text-slate-500">
+                    Secure login powered by Vendoa
+                  </span>
+                </div>
+              </div>
+
+              {/* Help text */}
+              <p className="text-center text-sm text-slate-500 dark:text-slate-400">
+                Need help?{" "}
+                <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                  Contact support
+                </a>
+              </p>
+            </>
+          ) : (
+            <>
+              {/* Forgot Password View */}
+              {!resetSuccess ? (
+                <>
+                  <button
+                    onClick={handleBackToLogin}
+                    className="flex items-center gap-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors mb-8"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span className="text-sm font-medium">Back to login</span>
+                  </button>
+
+                  <div className="mb-8">
+                    <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-6">
+                      <Mail className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                      Reset password
+                    </h2>
+                    <p className="text-slate-500 dark:text-slate-400 mt-2">
+                      Enter your email and we'll send you a new password
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleForgotPassword} className="space-y-5">
+                    <div>
+                      <label
+                        htmlFor="resetEmail"
+                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                      >
+                        Email address
+                      </label>
+                      <input
+                        id="resetEmail"
+                        type="email"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        placeholder="name@company.com"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={resetLoading}
+                      className="w-full py-3 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {resetLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+                      {resetLoading ? "Sending..." : "Send reset email"}
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  {/* Success View */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">
+                      Check your email
+                    </h2>
+                    <p className="text-slate-500 dark:text-slate-400 mb-2">
+                      We've sent a new password to
+                    </p>
+                    <p className="text-slate-900 dark:text-white font-medium mb-6">
+                      {resetEmail}
+                    </p>
+                    <p className="text-sm text-slate-400 dark:text-slate-500 mb-8">
+                      Remember to change your password after logging in for security.
+                    </p>
                     <button
                       onClick={handleBackToLogin}
-                      className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6"
+                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg font-medium hover:bg-slate-800 dark:hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all"
                     >
-                      <ArrowLeft className="w-4 h-4" />
-                      <span className="text-sm font-medium">Back to login</span>
+                      Back to login
                     </button>
-
-                    {/* Icon and title */}
-                    <div className="flex flex-col items-center mb-8">
-                      <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
-                        <Mail className="w-8 h-8 text-white" />
-                      </div>
-                      <h2 className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-                        Forgot Password?
-                      </h2>
-                      <p className="text-gray-500 dark:text-gray-400 mt-2 text-center text-sm">
-                        No worries! Enter your email address and we'll send you a new password.
-                      </p>
-                    </div>
-
-                    {/* Reset form */}
-                    <form onSubmit={handleForgotPassword} className="space-y-5">
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="resetEmail"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Email Address
-                        </label>
-                        <div className="relative group">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-amber-500 transition-colors" />
-                          </div>
-                          <input
-                            id="resetEmail"
-                            type="email"
-                            value={resetEmail}
-                            onChange={(e) => setResetEmail(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 dark:focus:border-amber-500 outline-none transition-all"
-                            placeholder="Enter your email address"
-                          />
-                        </div>
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={resetLoading}
-                        className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-semibold shadow-lg shadow-amber-500/30 hover:shadow-amber-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        {resetLoading && <Loader2 className="w-5 h-5 animate-spin" />}
-                        {resetLoading ? "Sending..." : "Send Reset Password"}
-                      </button>
-                    </form>
-                  </>
-                ) : (
-                  <>
-                    {/* Success View */}
-                    <div className="flex flex-col items-center text-center py-8">
-                      <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg mb-6 animate-bounce-once">
-                        <CheckCircle className="w-10 h-10 text-white" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        Check Your Email!
-                      </h2>
-                      <p className="text-gray-500 dark:text-gray-400 mb-6">
-                        We've sent a new password to{" "}
-                        <span className="font-medium text-gray-700 dark:text-gray-300">
-                          {resetEmail}
-                        </span>
-                      </p>
-                      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">
-                        Please check your inbox and use the new password to log in. Don't forget to change it after logging in!
-                      </p>
-                      <button
-                        onClick={handleBackToLogin}
-                        className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/40 transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        Back to Login
-                      </button>
-                    </div>
-                  </>
-                )}
-              </>
-            )}
-          </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
         </div>
-
-        {/* Floating decoration elements */}
-        <div className="absolute -top-10 -right-10 w-20 h-20 bg-white/10 rounded-full blur-2xl" />
-        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
       </div>
     </div>
   );

@@ -2,7 +2,10 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { authenticate, AuthRequest } from "../middleware/auth";
-import { generateSecurePassword, sendPasswordResetEmail } from "../services/email";
+import {
+  generateSecurePassword,
+  sendPasswordResetEmail,
+} from "../services/email";
 
 const router = Router();
 
@@ -244,9 +247,9 @@ router.post("/forgot-password", async (req, res) => {
 
     // Find user by email
     const user = await req.prisma.user.findFirst({
-      where: { 
+      where: {
         email: email.toLowerCase(),
-        isActive: true 
+        isActive: true,
       },
     });
 
