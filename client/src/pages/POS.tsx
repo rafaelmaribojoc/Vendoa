@@ -269,27 +269,27 @@ export default function POS() {
               <p>Failed to load products. Please try again.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {(Array.isArray(productsData) ? productsData : []).map(
                 (product) => (
                   <button
                     key={product.id}
                     onClick={() => handleAddProduct(product)}
                     disabled={product.stockQuantity === 0}
-                    className={`p-3 rounded-lg border dark:border-gray-600 text-left transition hover:shadow-md ${
+                    className={`p-3 rounded-lg border dark:border-gray-600 text-left transition hover:shadow-md flex flex-col ${
                       product.stockQuantity === 0
                         ? "bg-gray-50 dark:bg-gray-700 opacity-50 cursor-not-allowed"
                         : "bg-white dark:bg-gray-700 hover:border-primary-500"
                     }`}
                   >
-                    <p className="font-medium text-gray-900 truncate dark:text-white">
+                    <p className="font-medium text-gray-900 truncate dark:text-white text-sm sm:text-base">
                       {product.name}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                       {product.sku}
                     </p>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-lg font-bold text-primary-600 dark:text-primary-400">
+                    <div className="flex flex-col gap-1 mt-2">
+                      <span className="text-base sm:text-lg font-bold text-primary-600 dark:text-primary-400">
                         ₱{Number(product.price).toFixed(2)}
                       </span>
                       <span
