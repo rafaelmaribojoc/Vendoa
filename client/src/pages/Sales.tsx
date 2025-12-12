@@ -2,13 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../services/api";
 import { Loader2, Receipt, Eye } from "lucide-react";
 import { useState } from "react";
+import Pagination from "../components/Pagination";
 
 export default function Sales() {
   const [selectedSale, setSelectedSale] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["sales"],
-    queryFn: async () => (await api.get("/sales")).data.data,
+    queryKey: ["sales", currentPage, pageSize],
+    queryFn: async () =>
+      (await api.get("/sales", { params: { page: currentPage, pageSize } }))
+        .data.data,
   });
 
   const { data: saleDetails } = useQuery({
@@ -117,6 +122,18 @@ export default function Sales() {
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* Pagination */}
+        {data && data.totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={data.totalPages}
+            totalItems={data.total}
+            pageSize={pageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+            showPageSizeSelector={false}
+          />
         )}
       </div>
 

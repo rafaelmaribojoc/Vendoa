@@ -10,6 +10,7 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import Pagination from "../components/Pagination";
 
 interface Product {
   id: string;
@@ -21,6 +22,8 @@ interface Product {
 export default function StockMovements() {
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
   const [formData, setFormData] = useState({
     productId: "",
     quantity: "",
@@ -50,9 +53,14 @@ export default function StockMovements() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const { data: movements, isLoading } = useQuery({
-    queryKey: ["stock-movements"],
-    queryFn: async () => (await api.get("/stock/movements")).data.data,
+  const { data: movementsData, isLoading } = useQuery({
+    queryKey: ["stock-movements", currentPage, pageSize],
+    queryFn: async () =>
+      (
+        await api.get("/stock/movements", {
+          params: { page: currentPage, pageSize },
+        })
+      ).data.data,
   });
 
   const { data: products } = useQuery({
@@ -208,7 +216,7 @@ export default function StockMovements() {
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-gray-700">
-                {movements?.movements?.map(
+                {movementsData?.movements?.map(
                   (m: {
                     id: string;
                     createdAt: string;
@@ -261,6 +269,18 @@ export default function StockMovements() {
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* Pagination */}
+        {movementsData && movementsData.totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={movementsData.totalPages}
+            totalItems={movementsData.total}
+            pageSize={pageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+            showPageSizeSelector={false}
+          />
         )}
       </div>
 

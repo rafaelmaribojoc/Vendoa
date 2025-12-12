@@ -12,6 +12,7 @@ import {
   Loader2,
 } from "lucide-react";
 import ConfirmModal from "../components/ConfirmModal";
+import Pagination from "../components/Pagination";
 
 interface Product {
   id: string;
@@ -56,6 +57,8 @@ const emptyProduct = {
 export default function Products() {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState(emptyProduct);
@@ -67,12 +70,12 @@ export default function Products() {
     id: null,
   });
 
-  // Fetch products
+  // Fetch products with pagination
   const { data: productsData, isLoading } = useQuery({
-    queryKey: ["products", searchQuery],
+    queryKey: ["products", searchQuery, currentPage, pageSize],
     queryFn: async () => {
       const response = await api.get("/products", {
-        params: { search: searchQuery, pageSize: 100 },
+        params: { search: searchQuery, page: currentPage, pageSize },
       });
       return response.data.data;
     },
@@ -229,7 +232,10 @@ export default function Products() {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentPage(1);
+            }}
             placeholder="Search products..."
             className="w-full py-2 pl-10 pr-4 text-gray-900 bg-white border rounded-lg outline-none dark:border-gray-600 focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
           />
@@ -339,6 +345,18 @@ export default function Products() {
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* Pagination */}
+        {productsData && productsData.totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={productsData.totalPages}
+            totalItems={productsData.total}
+            pageSize={pageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+            showPageSizeSelector={false}
+          />
         )}
       </div>
 
