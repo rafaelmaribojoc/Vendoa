@@ -78,22 +78,13 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Dashboard
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            Welcome back! Here's what's happening today.
-          </p>
-        </div>
-        <Link
-          to="/pos"
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition icon-animated sm:w-auto w-full"
-        >
-          <ShoppingCart className="w-5 h-5 transition-transform" />
-          New Sale
-        </Link>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Dashboard
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400">
+          Welcome back! Here's what's happening today.
+        </p>
       </div>
 
       {/* Stats Grid */}

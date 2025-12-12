@@ -218,7 +218,7 @@ export default function Products() {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 text-white transition rounded-lg bg-primary-500 hover:bg-primary-600 icon-animated"
+          className="flex items-center justify-center gap-2 px-4 py-2 text-white transition rounded-lg bg-primary-500 hover:bg-primary-600 icon-animated w-full sm:w-auto"
         >
           <Plus className="w-5 h-5 transition-transform" />
           Add Product
