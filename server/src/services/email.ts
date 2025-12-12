@@ -181,3 +181,128 @@ If you have any questions, please contact your administrator.
     return false;
   }
 };
+
+interface PasswordResetEmailData {
+  to: string;
+  username: string;
+  fullName: string;
+  newPassword: string;
+}
+
+export const sendPasswordResetEmail = async (
+  data: PasswordResetEmailData
+): Promise<boolean> => {
+  const { to, username, fullName, newPassword } = data;
+
+  // Debug: Log email configuration status
+  console.log("Email configuration check for password reset:");
+  console.log(
+    `  SMTP_HOST: ${
+      process.env.SMTP_HOST || "(not set, using default: smtp.gmail.com)"
+    }`
+  );
+  console.log(
+    `  SMTP_USER: ${process.env.SMTP_USER ? "✓ configured" : "✗ NOT SET"}`
+  );
+
+  // Check if email is configured
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.log("\n⚠️ Email service not configured. Skipping email send.");
+    console.log("Password reset credentials for manual delivery:");
+    console.log(`  Email: ${to}`);
+    console.log(`  Username: ${username}`);
+    console.log(`  New Password: ${newPassword}`);
+    return false;
+  }
+
+  try {
+    console.log(`\nAttempting to send password reset email to: ${to}`);
+    const transporter = createTransporter();
+
+    // Verify transporter connection
+    await transporter.verify();
+    console.log("SMTP connection verified successfully");
+
+    const mailOptions = {
+      from: `"Vendoa" <${process.env.SMTP_USER}>`,
+      to,
+      subject: "Vendoa - Password Reset",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+            .credentials { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b; }
+            .credential-item { margin: 10px 0; }
+            .credential-label { font-weight: bold; color: #f59e0b; }
+            .credential-value { font-family: monospace; background: #f3f4f6; padding: 5px 10px; border-radius: 4px; }
+            .warning { background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 8px; margin-top: 20px; }
+            .footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0;">🔐 Password Reset</h1>
+              <p style="margin: 10px 0 0 0;">Vendoa</p>
+            </div>
+            <div class="content">
+              <p>Hello <strong>${fullName || username}</strong>,</p>
+              <p>We received a request to reset your password. Your new password is:</p>
+              
+              <div class="credentials">
+                <div class="credential-item">
+                  <span class="credential-label">Username:</span>
+                  <span class="credential-value">${username}</span>
+                </div>
+                <div class="credential-item">
+                  <span class="credential-label">New Password:</span>
+                  <span class="credential-value">${newPassword}</span>
+                </div>
+              </div>
+              
+              <div class="warning">
+                <strong>⚠️ Important Security Notice:</strong>
+                <p style="margin: 10px 0 0 0;">Please change your password immediately after logging in for security purposes. Go to Settings → Security → Change Password.</p>
+              </div>
+              
+              <p style="margin-top: 20px;">If you did not request this password reset, please contact your administrator immediately.</p>
+            </div>
+            <div class="footer">
+              <p>This is an automated message from Vendoa.</p>
+              <p>© ${new Date().getFullYear()} Vendoa. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+      text: `
+Password Reset - Vendoa
+
+Hello ${fullName || username},
+
+We received a request to reset your password. Your new password is:
+
+Username: ${username}
+New Password: ${newPassword}
+
+IMPORTANT: Please change your password immediately after logging in for security purposes.
+
+If you did not request this password reset, please contact your administrator immediately.
+
+© ${new Date().getFullYear()} Vendoa
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`Password reset email sent to ${to}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to send password reset email:", error);
+    return false;
+  }
+};

@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { authenticate, AuthRequest } from "../middleware/auth";
+import { generateSecurePassword, sendPasswordResetEmail } from "../services/email";
 
 const router = Router();
 
@@ -225,6 +226,71 @@ router.put("/profile", authenticate, async (req: AuthRequest, res) => {
     res.status(500).json({
       success: false,
       error: "Failed to update profile",
+    });
+  }
+});
+
+// Forgot password - send new password to email
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        error: "Email address is required",
+      });
+    }
+
+    // Find user by email
+    const user = await req.prisma.user.findFirst({
+      where: { 
+        email: email.toLowerCase(),
+        isActive: true 
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "No account found with this email address",
+      });
+    }
+
+    // Generate a new secure password
+    const newPassword = generateSecurePassword(12);
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    await req.prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash: newPasswordHash },
+    });
+
+    // Send the new password via email
+    const emailSent = await sendPasswordResetEmail({
+      to: user.email!,
+      username: user.username,
+      fullName: user.fullName,
+      newPassword,
+    });
+
+    if (!emailSent) {
+      // If email fails, still succeed but log it
+      console.log("Password reset for user but email failed to send:");
+      console.log(`  Username: ${user.username}`);
+      console.log(`  New Password: ${newPassword}`);
+    }
+
+    res.json({
+      success: true,
+      message: "A new password has been sent to your email address",
+    });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to reset password",
     });
   }
 });
