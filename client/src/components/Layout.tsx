@@ -61,7 +61,7 @@ export default function Layout() {
       <aside
         className={`
           fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out flex flex-col
-          lg:relative lg:translate-x-0 lg:z-0
+          lg:relative lg:translate-x-0 lg:z-0 lg:shrink-0
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
@@ -185,7 +185,7 @@ export default function Layout() {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 xl:p-8">
           <Outlet />
         </main>
       </div>

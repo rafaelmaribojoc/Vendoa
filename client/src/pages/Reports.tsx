@@ -66,8 +66,8 @@ export default function Reports() {
   const isLoading = salesLoading || inventoryLoading;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Reports
@@ -80,7 +80,7 @@ export default function Reports() {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="flex-1 sm:flex-initial px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
@@ -88,9 +88,10 @@ export default function Reports() {
           </select>
           <button
             onClick={exportToCSV}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 whitespace-nowrap"
           >
-            <Download className="w-5 h-5" /> Export CSV
+            <Download className="w-5 h-5" />{" "}
+            <span className="hidden sm:inline">Export</span> CSV
           </button>
         </div>
       </div>
@@ -102,7 +103,7 @@ export default function Reports() {
       ) : (
         <>
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
@@ -166,12 +167,16 @@ export default function Reports() {
           </div>
 
           {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
               <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
                 Sales Trend
               </h3>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer
+                width="100%"
+                height={250}
+                className="sm:h-[300px]"
+              >
                 <LineChart data={salesReport?.salesByDate || []}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" tick={{ fontSize: 12 }} />
@@ -186,11 +191,15 @@ export default function Reports() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
               <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
                 Top Selling Products
               </h3>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer
+                width="100%"
+                height={250}
+                className="sm:h-[300px]"
+              >
                 <BarChart
                   data={inventoryReport?.topSellingProducts?.slice(0, 5) || []}
                   layout="vertical"
@@ -211,11 +220,11 @@ export default function Reports() {
           </div>
 
           {/* Inventory Summary */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
             <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
               Inventory Summary
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-center">
               <div>
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">
                   {inventoryReport?.totalProducts || 0}

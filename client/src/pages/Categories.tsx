@@ -91,8 +91,8 @@ export default function Categories() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Categories
@@ -103,7 +103,7 @@ export default function Categories() {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-primary-500 hover:bg-primary-600 icon-animated"
+          className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-lg bg-primary-500 hover:bg-primary-600 icon-animated w-full sm:w-auto"
         >
           <Plus className="w-5 h-5 transition-transform" /> Add Category
         </button>

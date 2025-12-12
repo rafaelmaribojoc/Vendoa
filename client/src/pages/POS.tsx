@@ -19,7 +19,6 @@ import {
   Wallet,
   Loader2,
   CheckCircle,
-  User,
   Receipt,
 } from "lucide-react";
 
@@ -232,9 +231,9 @@ export default function POS() {
   const change = parseFloat(amountPaid) - total;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-8rem)]">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-auto lg:h-[calc(100vh-8rem)] min-h-[calc(100vh-8rem)]">
       {/* Product Search & Grid */}
-      <div className="flex flex-col flex-1 overflow-hidden bg-white shadow-sm dark:bg-gray-800 rounded-xl">
+      <div className="flex flex-col flex-1 min-h-[50vh] lg:min-h-0 overflow-hidden bg-white shadow-sm dark:bg-gray-800 rounded-xl">
         {/* Search Bar */}
         <div className="p-4 border-b dark:border-gray-700">
           <div className="flex gap-2">
@@ -270,7 +269,7 @@ export default function POS() {
               <p>Failed to load products. Please try again.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {(Array.isArray(productsData) ? productsData : []).map(
                 (product) => (
                   <button
@@ -318,7 +317,7 @@ export default function POS() {
       </div>
 
       {/* Cart */}
-      <div className="flex flex-col w-full bg-white shadow-sm lg:w-96 dark:bg-gray-800 rounded-xl">
+      <div className="flex flex-col w-full bg-white shadow-sm lg:w-96 xl:w-[28rem] shrink-0 dark:bg-gray-800 rounded-xl min-h-[400px] lg:min-h-0">
         <div className="p-4 border-b dark:border-gray-700">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Current Sale
@@ -445,24 +444,26 @@ export default function POS() {
 
       {/* Checkout Modal */}
       {showCheckout && !completedSale && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="w-full max-w-md bg-white rounded-xl">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold">Complete Payment</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50">
+          <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl max-h-[95vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b dark:border-gray-700 shrink-0">
+              <h3 className="text-lg font-semibold dark:text-white">
+                Complete Payment
+              </h3>
               <button
                 onClick={() => setShowCheckout(false)}
-                className="p-2 rounded-lg hover:bg-gray-100"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 dark:text-gray-300" />
               </button>
             </div>
-            <div className="p-6 max-h-[70vh] overflow-y-auto">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1">
               {/* Payment Method */}
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-700">
+              <div className="mb-4 sm:mb-6">
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   Payment Method
                 </label>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
                   {[
                     { value: "cash", label: "Cash", icon: Banknote },
                     { value: "card", label: "Card", icon: CreditCard },
@@ -483,14 +484,16 @@ export default function POS() {
                           setSelectedCustomer(null);
                         }
                       }}
-                      className={`p-3 rounded-lg border flex flex-col items-center gap-1 transition ${
+                      className={`p-2 sm:p-3 rounded-lg border flex flex-col items-center gap-1 transition ${
                         paymentMethod === method.value
-                          ? "border-primary-500 bg-primary-50 text-primary-600"
-                          : "hover:border-gray-300"
+                          ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
+                          : "hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500"
                       }`}
                     >
-                      <method.icon className="w-5 h-5" />
-                      <span className="text-xs">{method.label}</span>
+                      <method.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span className="text-[10px] sm:text-xs">
+                        {method.label}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -498,8 +501,8 @@ export default function POS() {
 
               {/* Customer Selection for Credit */}
               {paymentMethod === "credit" && (
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                <div className="mb-4 sm:mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Select Customer <span className="text-red-500">*</span>
                   </label>
                   {selectedCustomer ? (
@@ -598,24 +601,26 @@ export default function POS() {
               )}
 
               {/* Amount */}
-              <div className="mb-6">
-                <div className="flex justify-between mb-4 text-lg">
-                  <span className="text-gray-600">Total Due:</span>
-                  <span className="font-bold text-gray-900">
+              <div className="mb-4 sm:mb-6">
+                <div className="flex justify-between mb-4 text-base sm:text-lg">
+                  <span className="text-gray-600 dark:text-gray-300">
+                    Total Due:
+                  </span>
+                  <span className="font-bold text-gray-900 dark:text-white">
                     ₱{total.toFixed(2)}
                   </span>
                 </div>
 
                 {paymentMethod !== "credit" && (
                   <>
-                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                    <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Amount Paid
                     </label>
                     <input
                       type="number"
                       value={amountPaid}
                       onChange={(e) => setAmountPaid(e.target.value)}
-                      className="w-full px-4 py-3 text-lg font-medium border rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg font-medium border rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       placeholder="0.00"
                     />
                   </>
@@ -637,10 +642,12 @@ export default function POS() {
                 )}
 
                 {paymentMethod === "cash" && !isNaN(change) && change >= 0 && (
-                  <div className="p-3 mt-4 rounded-lg bg-green-50">
-                    <div className="flex justify-between text-lg">
-                      <span className="text-green-700">Change:</span>
-                      <span className="font-bold text-green-700">
+                  <div className="p-3 mt-4 rounded-lg bg-green-50 dark:bg-green-900/30">
+                    <div className="flex justify-between text-base sm:text-lg">
+                      <span className="text-green-700 dark:text-green-400">
+                        Change:
+                      </span>
+                      <span className="font-bold text-green-700 dark:text-green-400">
                         ₱{change.toFixed(2)}
                       </span>
                     </div>
@@ -650,19 +657,19 @@ export default function POS() {
 
               {/* Quick Amount Buttons */}
               {paymentMethod === "cash" && (
-                <div className="grid grid-cols-4 gap-2 mb-6">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                   {[20, 50, 100, 200, 500, 1000].map((amount) => (
                     <button
                       key={amount}
                       onClick={() => setAmountPaid(amount.toString())}
-                      className="py-2 font-medium border rounded-lg hover:bg-gray-50"
+                      className="py-2 text-sm sm:text-base font-medium border rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-white"
                     >
                       ₱{amount}
                     </button>
                   ))}
                   <button
                     onClick={() => setAmountPaid(total.toFixed(2))}
-                    className="col-span-2 py-2 font-medium border rounded-lg hover:bg-gray-50"
+                    className="col-span-3 sm:col-span-2 py-2 text-sm sm:text-base font-medium border rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-white"
                   >
                     Exact Amount
                   </button>
@@ -690,26 +697,28 @@ export default function POS() {
 
       {/* Success Modal */}
       {completedSale && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="w-full max-w-md p-8 text-center bg-white rounded-xl">
-            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-              <CheckCircle className="w-8 h-8 text-green-500" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50">
+          <div className="w-full max-w-md p-6 sm:p-8 text-center bg-white dark:bg-gray-800 rounded-xl">
+            <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/50 rounded-full">
+              <CheckCircle className="w-7 h-7 sm:w-8 sm:h-8 text-green-500" />
             </div>
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
+            <h3 className="mb-2 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
               Payment Complete!
             </h3>
-            <p className="mb-6 text-gray-500">
+            <p className="mb-4 sm:mb-6 text-gray-500 dark:text-gray-400">
               Receipt #{completedSale.receiptNumber}
             </p>
 
-            <div className="p-4 mb-6 rounded-lg bg-gray-50">
+            <div className="p-3 sm:p-4 mb-4 sm:mb-6 rounded-lg bg-gray-50 dark:bg-gray-700">
               <div className="flex justify-between mb-2">
-                <span className="text-gray-600">Total Paid</span>
-                <span className="font-medium">
+                <span className="text-gray-600 dark:text-gray-300">
+                  Total Paid
+                </span>
+                <span className="font-medium dark:text-white">
                   ₱{(completedSale.total + completedSale.change).toFixed(2)}
                 </span>
               </div>
-              <div className="flex justify-between text-lg font-bold text-green-600">
+              <div className="flex justify-between text-base sm:text-lg font-bold text-green-600 dark:text-green-400">
                 <span>Change</span>
                 <span>₱{completedSale.change.toFixed(2)}</span>
               </div>
@@ -721,7 +730,7 @@ export default function POS() {
                 setShowCheckout(false);
                 searchInputRef.current?.focus();
               }}
-              className="w-full py-3 font-medium text-white transition rounded-lg bg-primary-500 hover:bg-primary-600"
+              className="w-full py-2.5 sm:py-3 font-medium text-white transition rounded-lg bg-primary-500 hover:bg-primary-600"
             >
               New Sale
             </button>

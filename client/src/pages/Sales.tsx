@@ -43,78 +43,80 @@ export default function Sales() {
             </p>
           </div>
         ) : (
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Receipt #
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Date
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Items
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Payment
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Total
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Cashier
-                </th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y dark:divide-gray-700">
-              {data.sales.map(
-                (sale: {
-                  id: string;
-                  receiptNumber: string;
-                  createdAt: string;
-                  items: unknown[];
-                  paymentMethod: string;
-                  total: number;
-                  user: { username: string; fullName?: string };
-                }) => (
-                  <tr
-                    key={sale.id}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                      {sale.receiptNumber}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                      {new Date(sale.createdAt).toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                      {sale.items.length} items
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-600 rounded-full capitalize text-gray-700 dark:text-gray-300">
-                        {sale.paymentMethod.replace("_", "-")}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
-                      ₱{Number(sale.total).toFixed(2)}
-                    </td>
-                    <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-300">
-                      {sale.user.fullName || sale.user.username}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => setSelectedSale(sale.id)}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg text-gray-600 dark:text-gray-300"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[700px]">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Receipt #
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300 hidden sm:table-cell">
+                    Date
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Items
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Payment
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Total
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300 hidden md:table-cell">
+                    Cashier
+                  </th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y dark:divide-gray-700">
+                {data.sales.map(
+                  (sale: {
+                    id: string;
+                    receiptNumber: string;
+                    createdAt: string;
+                    items: unknown[];
+                    paymentMethod: string;
+                    total: number;
+                    user: { username: string; fullName?: string };
+                  }) => (
+                    <tr
+                      key={sale.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                        {sale.receiptNumber}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300 hidden sm:table-cell">
+                        {new Date(sale.createdAt).toLocaleString()}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                        {sale.items.length} items
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-600 rounded-full capitalize text-gray-700 dark:text-gray-300">
+                          {sale.paymentMethod.replace("_", "-")}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
+                        ₱{Number(sale.total).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-300 hidden md:table-cell">
+                        {sale.user.fullName || sale.user.username}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          onClick={() => setSelectedSale(sale.id)}
+                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg text-gray-600 dark:text-gray-300"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

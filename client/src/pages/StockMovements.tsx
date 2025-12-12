@@ -127,8 +127,8 @@ export default function StockMovements() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Stock Movements
@@ -151,10 +151,10 @@ export default function StockMovements() {
               setSelectedProduct(null);
               setProductSearch("");
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 icon-animated"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 icon-animated text-sm sm:text-base"
           >
-            <ArrowDownCircle className="w-5 h-5 transition-transform" /> Receive
-            Stock
+            <ArrowDownCircle className="w-4 h-4 sm:w-5 sm:h-5 transition-transform" />{" "}
+            <span className="hidden sm:inline">Receive</span> Stock
           </button>
           <button
             onClick={() => {
@@ -169,10 +169,10 @@ export default function StockMovements() {
               setSelectedProduct(null);
               setProductSearch("");
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 icon-animated"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 icon-animated text-sm sm:text-base"
           >
-            <ArrowUpCircle className="w-5 h-5 transition-transform" /> Adjust
-            Stock
+            <ArrowUpCircle className="w-4 h-4 sm:w-5 sm:h-5 transition-transform" />{" "}
+            <span className="hidden sm:inline">Adjust</span> Stock
           </button>
         </div>
       </div>
@@ -183,82 +183,84 @@ export default function StockMovements() {
             <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
           </div>
         ) : (
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Date
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Product
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Type
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Reason
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Quantity
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  User
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y dark:divide-gray-700">
-              {movements?.movements?.map(
-                (m: {
-                  id: string;
-                  createdAt: string;
-                  product: { name: string; sku: string };
-                  type: string;
-                  reason: string;
-                  quantity: number;
-                  user: { username: string };
-                }) => (
-                  <tr
-                    key={m.id}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                      {new Date(m.createdAt).toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="font-medium text-gray-900 dark:text-white">
-                        {m.product.name}
-                      </span>
-                      <br />
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {m.product.sku}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`px-2 py-1 text-xs rounded-full ${
-                          m.type === "in"
-                            ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                            : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
-                        }`}
-                      >
-                        {m.type === "in" ? "IN" : "OUT"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300 capitalize">
-                      {m.reason.replace("_", " ")}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
-                      {m.type === "in" ? "+" : "-"}
-                      {m.quantity}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                      {m.user.username}
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Date
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Product
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Type
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Reason
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Quantity
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    User
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y dark:divide-gray-700">
+                {movements?.movements?.map(
+                  (m: {
+                    id: string;
+                    createdAt: string;
+                    product: { name: string; sku: string };
+                    type: string;
+                    reason: string;
+                    quantity: number;
+                    user: { username: string };
+                  }) => (
+                    <tr
+                      key={m.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                        {new Date(m.createdAt).toLocaleString()}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          {m.product.name}
+                        </span>
+                        <br />
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                          {m.product.sku}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${
+                            m.type === "in"
+                              ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                              : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
+                          }`}
+                        >
+                          {m.type === "in" ? "IN" : "OUT"}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300 capitalize">
+                        {m.reason.replace("_", " ")}
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
+                        {m.type === "in" ? "+" : "-"}
+                        {m.quantity}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                        {m.user.username}
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

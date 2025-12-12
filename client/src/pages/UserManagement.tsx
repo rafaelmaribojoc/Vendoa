@@ -183,8 +183,8 @@ export default function UserManagement() {
   const inactiveUsers = users?.filter((u) => !u.isActive) || [];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             User Management
@@ -195,7 +195,7 @@ export default function UserManagement() {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 icon-animated"
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 icon-animated w-full sm:w-auto"
         >
           <Plus className="w-5 h-5 transition-transform" />
           Add User
@@ -203,8 +203,8 @@ export default function UserManagement() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
               <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -219,7 +219,7 @@ export default function UserManagement() {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
               <UserCheck className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -232,7 +232,7 @@ export default function UserManagement() {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
               <UserX className="w-6 h-6 text-gray-600 dark:text-gray-400" />
@@ -262,125 +262,128 @@ export default function UserManagement() {
             <p className="text-sm mt-1">Add your first user to get started</p>
           </div>
         ) : (
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  User
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Role
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Status
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Sales
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Created
-                </th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y dark:divide-gray-700">
-              {users.map((user) => {
-                const RoleIcon = roleIcons[user.role];
-                const isCurrentUser = user.id === currentUser?.id;
-                const canEdit =
-                  currentUser?.role === "admin" ||
-                  (currentUser?.role === "manager" && user.role === "cashier");
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    User
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Role
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Sales
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Created
+                  </th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y dark:divide-gray-700">
+                {users.map((user) => {
+                  const RoleIcon = roleIcons[user.role];
+                  const isCurrentUser = user.id === currentUser?.id;
+                  const canEdit =
+                    currentUser?.role === "admin" ||
+                    (currentUser?.role === "manager" &&
+                      user.role === "cashier");
 
-                return (
-                  <tr
-                    key={user.id}
-                    className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
-                      !user.isActive ? "opacity-60" : ""
-                    }`}
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
-                          <span className="text-primary-600 dark:text-primary-400 font-semibold">
-                            {(user.fullName || user.username)
-                              .charAt(0)
-                              .toUpperCase()}
-                          </span>
+                  return (
+                    <tr
+                      key={user.id}
+                      className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                        !user.isActive ? "opacity-60" : ""
+                      }`}
+                    >
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+                            <span className="text-primary-600 dark:text-primary-400 font-semibold">
+                              {(user.fullName || user.username)
+                                .charAt(0)
+                                .toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900 dark:text-white">
+                              {user.fullName || user.username}
+                              {isCurrentUser && (
+                                <span className="ml-2 text-xs text-primary-500">
+                                  (You)
+                                </span>
+                              )}
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              @{user.username} • {user.email}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            {user.fullName || user.username}
-                            {isCurrentUser && (
-                              <span className="ml-2 text-xs text-primary-500">
-                                (You)
-                              </span>
-                            )}
-                          </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            @{user.username} • {user.email}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full capitalize ${
-                          roleColors[user.role]
-                        }`}
-                      >
-                        <RoleIcon className="w-3 h-3" />
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`px-2 py-1 text-xs rounded-full ${
-                          user.isActive
-                            ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                            : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-                        }`}
-                      >
-                        {user.isActive ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
-                      {user._count.sales}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      {canEdit && (
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => handleOpenModal(user)}
-                            className="p-2 text-gray-400 hover:text-primary-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg icon-hover-scale"
-                          >
-                            <Edit2 className="w-4 h-4 transition-transform" />
-                          </button>
-                          {!isCurrentUser && (
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full capitalize ${
+                            roleColors[user.role]
+                          }`}
+                        >
+                          <RoleIcon className="w-3 h-3" />
+                          {user.role}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${
+                            user.isActive
+                              ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                              : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
+                          }`}
+                        >
+                          {user.isActive ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">
+                        {user._count.sales}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        {canEdit && (
+                          <div className="flex items-center justify-end gap-2">
                             <button
-                              onClick={() => handleDelete(user)}
-                              className="p-2 text-gray-400 hover:text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg icon-hover-wiggle"
+                              onClick={() => handleOpenModal(user)}
+                              className="p-2 text-gray-400 hover:text-primary-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg icon-hover-scale"
                             >
-                              <Trash2 className="w-4 h-4 transition-transform" />
+                              <Edit2 className="w-4 h-4 transition-transform" />
                             </button>
-                          )}
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                            {!isCurrentUser && (
+                              <button
+                                onClick={() => handleDelete(user)}
+                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg icon-hover-wiggle"
+                              >
+                                <Trash2 className="w-4 h-4 transition-transform" />
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
               <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
                 {editingUser ? "Edit User" : "Add New User"}
